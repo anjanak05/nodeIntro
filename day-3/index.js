@@ -22,28 +22,34 @@ app.post("/uploadData", (req, res) => {
 });
 
 app.get("/products", (req, res) => {
-  const resData = fs.readFileSync("./db.json", {encoding:"utf-8"})
- const dataProduct = JSON.parse(resData)
- res.send(JSON.stringify(dataProduct.products))
+  const resData = fs.readFileSync("./db.json", { encoding: "utf-8" });
+  const dataProduct = JSON.parse(resData);
+  res.send(JSON.stringify(dataProduct.products));
 });
 
 app.post("/addProducts", (req, res) => {
+  const fileData = fs.readFileSync("./db.json", { encoding: "utf-8" });
+  const prasedFile = JSON.parse(fileData);
+  prasedFile.products.push(req.body);
 
-  const fileData =fs.readFileSync("./db.json", {encoding: "utf-8"})
- const prasedFile = JSON.parse(fileData)
- prasedFile.products.push(req.body)
- 
-  fs.writeFileSync("./db.json", JSON.stringify(prasedFile), {encoding: "utf-8"})
-  res.send("Products added successfully")
+  fs.writeFileSync("./db.json", JSON.stringify(prasedFile), {
+    encoding: "utf-8",
+  });
+  res.send("Products added successfully");
 });
 
-app.delete("/delete/:id", (req, res)=>{
-    const userId = req.params['id'];
-const readData = fs.readFileSync("./db.json", {encoding: "utf-8"})
-const parsedData = JSON.parse(readData)
-fs.unlink(parsedData.products.id, ()=>{
-    console.log("fddv")})
-})
+
+
+app.delete("/delete/:id", (req, res) => {
+  const userId = req.params["id"];
+  const readData = fs.readFileSync("./db.json", { encoding: "utf-8" });
+  const parsedData = JSON.parse(readData);
+  const mainData = parsedData.products;
+  const updatedData = 
+  parsedData.products.push(updatedData);
+  console.log(parsedData.products)
+});
+
 
 app.listen(5000, () => {
   console.log("Welcome to Port 5000");
