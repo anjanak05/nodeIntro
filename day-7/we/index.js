@@ -10,6 +10,12 @@ app.get("/", (req, res) => {
   res.send("Welcome to Home Page");
 })
 
+// app.get("/todo/",(req, res) => {
+//   console.log(req.query.task)
+
+//     res.send(req.query.task);
+//   })
+
 app.use("/todos", todoRouter)
 
 app.listen(9000, async () => {
