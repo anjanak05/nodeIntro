@@ -10,7 +10,7 @@ const postTodo = async (req, res) => {
     try {
       let data = req.body;
       let result = new Todo(data);
-      result.save();
+      await result.save();
       res.send(result);
     } catch (err) {
       console.log(err);
