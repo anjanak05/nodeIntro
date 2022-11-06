@@ -24,24 +24,35 @@ const authentication = (req, res, next) => {
   }
 };
 
-const authorization = async(req, res, next) => {
-    const emailAuthorization = req.body.email
-    let user = await signUpModal.findOne({email: emailAuthorization})
-    console.log(user.role)
-    if(user.role==="seller") {
- 
-      next();
-    } else  {
-         res.send("PLease login again");
-    }
-  };
+const authorization =(permittedrole)=>{
+    return async(req, res, next) => {
+
+        const emailAuthorization = req.body.email
+        let user = await signUpModal.findOne({email: emailAuthorization})
+        console.log(user.role)
+        if(permittedrole.includes(user.role)) {
+     
+          next();
+        } else  {
+             res.send("PLease login again");
+        }
+      };
+} 
 
 app.get("/products", authentication ,(req, res) => {
   res.send(`welcome ${req.body.email} DAshboard Page`);
 });
 
-app.get("/products/create", authentication , authorization,  (req, res) => {
+app.get("/products/create", authentication , authorization(["seller"]),  (req, res) => {
     res.send(`welcome to seller Page`);
+  });
+  
+  app.get("/products/feedback", authentication , authorization(["customer"]),  (req, res) => {
+    res.send(`welcome to feedback Page`);
+  });
+  
+  app.get("/products/cart", authentication , authorization(["seller","customer"]),  (req, res) => {
+    res.send(`welcome to cart Page`);
   });
   
 
