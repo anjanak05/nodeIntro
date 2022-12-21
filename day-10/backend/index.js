@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors")
+require("dotenv").config()
 const { connection } = require("./config/db.js");
 const {userRouter} =require("./routes/user.route.js")
 const {notesRouter} = require("./routes/notes.route.js")
 const app = express();
 app.use(cors())
 app.use(express.json());
-
+const PORT = process.env.PORT || 8000
 app.get("/", (req, res) => {
   res.send("HOME PAGE");
 });
@@ -26,7 +27,7 @@ const token = req.headers.authorization.split(" ")[1]
 app.use("/notes", notesRouter)
 app.use("/user", userRouter)
 
-app.listen(8000, async () => {
+app.listen(PORT, async () => {
   try {
     await connection;
     console.log("Database connected successfully");
